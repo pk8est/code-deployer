@@ -14,7 +14,8 @@ echo "<?php\n";
 
 use yii\helpers\Html;
 use <?= $generator->indexWidgetType === 'grid' ? "yii\\grid\\GridView" : "yii\\widgets\\ListView" ?>;
-<?= $generator->enablePjax ? 'use yii\widgets\Pjax;' : '' ?>
+<?= $generator->enablePjax ? 'use yii\widgets\Pjax;' : '' ?> 
+use mdm\admin\components\Helper;
 
 /* @var $this yii\web\View */
 <?= !empty($generator->searchModelClass) ? "/* @var \$searchModel " . ltrim($generator->searchModelClass, '\\') . " */\n" : '' ?>
@@ -26,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-index box box-primary">
 <?= $generator->enablePjax ? "    <?php Pjax::begin(); ?>\n" : ''
 ?>    <div class="box-header with-border">
-        <?= "<?= " ?>Html::a(<?= $generator->generateString('Create ' . Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>, ['create'], ['class' => 'btn btn-info btn-flat pull-right']) ?>
+        <?= "<?= " ?>Helper::checkRoute('create') ? Html::a(<?= $generator->generateString('Create ' . Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>, ['create'], ['class' => 'btn btn-info btn-flat pull-right']) : "" ?>
     </div>
     <div class="box-body table-responsive no-padding">
 <?php if(!empty($generator->searchModelClass)): ?>
@@ -61,7 +62,10 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
 }
 ?>
 
-                ['class' => 'yii\grid\ActionColumn'],
+				[
+                    'class' => 'yii\grid\ActionColumn',
+					'template' => '<div class="btn-group">'.Helper::filterActionColumn(['view', 'update', 'delete']).'</div>',
+                ],
             ],
         ]); ?>
 <?php else: ?>

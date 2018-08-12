@@ -39,8 +39,8 @@ if (Yii::$app->controller->action->id === 'login') {
         <?php $this->head() ?>
     </head>
 
-    <!-- <body class="hold-transition layout-boxed skin-blue sidebar-collapse fixed "> -->
-    <body class="hold-transition <?= \Yii::$app->session['page-layout'] ?> <?= \Yii::$app->session['skin-style'] ?> <?= \dmstr\helpers\AdminLteHelper::skinClass() ?>">
+    <!-- <body class="hold-transition sidebar-mini layout-boxed skin-blue sidebar-collapse fixed "> -->
+    <body class="hold-transition sidebar-mini <?= \Yii::$app->session['page-layout'] ? : 'skin-blue' ?> <?= \Yii::$app->session['skin-style'] ?> <?= \dmstr\helpers\AdminLteHelper::skinClass() ?>">
     <?php $this->beginBody() ?>
     <div class="wrapper">
 

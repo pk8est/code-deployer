@@ -13,11 +13,14 @@ if (empty($safeAttributes)) {
     $safeAttributes = $model->attributes();
 }
 
+$urlParams = $generator->generateUrlParams();
+
 echo "<?php\n";
 ?>
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use mdm\admin\components\Helper;
 
 /* @var $this yii\web\View */
 /* @var $model <?= ltrim($generator->modelClass, '\\') ?> */
@@ -50,8 +53,9 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
     <div class="box-footer">
-        <?= "<?= " ?>Html::submitButton(<?= $generator->generateString('Save') ?>, ['class' => 'btn btn-success btn-flat']) ?>
-        <?= "<?= " ?>Html::a(<?= $generator->generateString('Return List') ?>, ['index'], ['class' => 'btn btn-info btn-flat']) ?>
+        <?= "<?= " ?>Helper::checkRoute('view') && $model->getPrimaryKey() ? Html::a(<?= $generator->generateString('View') ?>, ['view',  <?= $urlParams ?>], ['class' => 'btn btn-success btn-flat']) : '' ?>
+        <?= "<?= " ?>Helper::checkRoute('index') ? Html::a(<?= $generator->generateString('Return List') ?>, ['index'], ['class' => 'btn btn-info btn-flat']) : '' ?>
+        <?= "<?= " ?>Helper::checkRoute('update') ? Html::submitButton(<?= $generator->generateString('Save') ?>, ['class' => 'btn btn-danger btn-flat']) : '' ?>
     </div>
     <?= "<?php " ?>ActiveForm::end(); ?>
 </div>

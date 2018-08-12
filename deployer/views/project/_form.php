@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use mdm\admin\components\Helper;
 use yii\helpers\ArrayHelper;
 use common\models\ProjectGroup;
 
@@ -47,8 +48,10 @@ use common\models\ProjectGroup;
         </div>
     </div>
     <div class="box-footer">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success btn-flat']) ?>
-        <?= Html::a(Yii::t('app', 'Return List'), ['index'], ['class' => 'btn btn-info btn-flat']) ?>
+        <?= Helper::checkRoute('view') && $model->id ? Html::a(Yii::t('app', 'View'), ['view', 'id' => $model->id], ['class' => 'btn btn-success btn-flat']) : '' ?>
+        <?= Helper::checkRoute('index') ? Html::a(Yii::t('app', 'Return List'), ['index'], ['class' => 'btn btn-info btn-flat']) : '' ?>
+        <?= Helper::checkRoute('update') ? Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-danger btn-flat']) : '' ?>
+    </div>
     </div>
     <?php ActiveForm::end(); ?>
 </div>

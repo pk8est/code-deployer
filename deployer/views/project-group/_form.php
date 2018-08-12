@@ -11,19 +11,24 @@ use yii\helpers\ArrayHelper;
 
 <div class="project-group-form box box-primary">
     <?php $form = ActiveForm::begin(); ?>
-    <div class="box-body table-responsive">
+    <div class="box-body table-responsive row">
 
-        <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+        <div class="col-sm-6">
 
-        <?= $form->field($model, 'desc')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'status')->dropdownList(ArrayHelper::map($model::$statusArr, 'value', 'name')) ?>
+            <?= $form->field($model, 'desc')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'type')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'status')->dropdownList(ArrayHelper::map($model::$statusArr, 'value', 'name')) ?>
+        </div>
+        <div class="col-sm-6">
 
-        <?= $form->field($model, 'order')->textInput() ?>
+            <?= $form->field($model, 'type')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'remark')->textarea(['rows' => 6]) ?>
+            <?= $form->field($model, 'order')->textInput() ?>
+
+            <?= $form->field($model, 'remark')->textarea(['rows' => 6]) ?>
+        </div>
 
     </div>
     <div class="box-footer">

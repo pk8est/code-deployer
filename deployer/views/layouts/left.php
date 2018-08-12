@@ -25,18 +25,27 @@
             </div>
         </form>
         <!-- /.search form -->
-        <?= dmstr\widgets\Menu::widget(
+        <?php
+        $route = Yii::$app->controller->getRoute();
+        echo dmstr\widgets\Menu::widget(
             [
+                'activateParents' => true,
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
-                'items' => mdm\admin\components\MenuHelper::getAssignedMenu(Yii::$app->user->id, null, function($menu){
+                'items' => mdm\admin\components\MenuHelper::getAssignedMenu(Yii::$app->user->id, null, function($menu) use ($route){
 	$data = json_decode($menu['data'], true);
-	return [
+	$item = [
 		'label'   => $menu['name'],
 		'icon'    => isset($data['icon']) ? $data['icon'] : '',
 		'url'     => mdm\admin\components\MenuHelper::parseRoute($menu['route']),
 		'options' => (array) $data,
 		'items'   => $menu['children'],
 	];
+    if($menu['children'] && is_array($item['url']) && isset($item['url'][0])){
+        if(stripos($route, trim($item['url'][0], "/*")) === 0){
+           $item['active'] = true; 
+        }
+    }
+    return $item;
 }) 
             ]
         ) ?>

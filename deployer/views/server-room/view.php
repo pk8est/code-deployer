@@ -5,13 +5,13 @@ use yii\widgets\DetailView;
 use mdm\admin\components\Helper;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Project */
+/* @var $model common\models\ServerRoom */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Projects'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Server Rooms'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="project-view box box-primary">
+<div class="server-room-view box box-primary">
     <div class="box-header">
         <?= Helper::checkRoute('update') ? Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary btn-flat']) : '' ?>
         <?= Helper::checkRoute('delete') ? Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
@@ -29,18 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'attributes' => [
                 'id',
                 'creater_id',
-                'project_group_id',
                 'name',
-                'repo_type',
-                'repo_address',
-                'repo_account',
-                'repo_password',
-                'repo_private_key',
-                'repo_branch',
                 'desc',
                 'status',
                 'type',
-                'published_at',
                 'created_at:datetime',
                 'updated_at:datetime',
                 'deleted_at',
