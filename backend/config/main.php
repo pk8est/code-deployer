@@ -1,4 +1,8 @@
 <?php
+
+use yii\helpers\Html;
+use mdm\admin\components\Helper;
+
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -10,6 +14,7 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
+	'defaultRoute' => 'admin',
     'bootstrap' => ['log'],
     'modules' => [
 		'admin' => [
@@ -43,12 +48,12 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ], 
-        'urlManager' => [
+        /*'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
-        ],
+        ],*/
 		'i18n' => [
 			'translations' => [
 				'rbac-admin' => [
@@ -81,8 +86,55 @@ return [
 	'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
-			'*',
+			'site/*'
+			//'*',
 		]
 	],
+	'container' => [
+        'definitions' => [
+            'yii\grid\GridView' => [
+                'tableOptions' => [
+                    'class' => 'table table-striped table-bordered'
+                ],
+                'summary'   => '<div class="pull-left">共{totalCount}条记录，每页{pageCount}条</div>',
+                'layout' => "{summary}\n{items}\n{pager}",
+            ],
+            'yii\widgets\LinkPager' => [
+                //'p;revPageLabel' => '',
+                //'nextPageLabel' => '->',
+                'firstPageLabel' => '首页', 
+                'lastPageLabel' => '尾页', 
+            ],
+            'yii\grid\ActionColumn' => [
+                'header' => '操作',
+                'headerOptions'=> ['width'=> '190'],
+                //'template' => '<div class="btn-group">'.Helper::filterActionColumn('{view}{update}{delete}').'</div>',
+                'template' => '<div class="btn-group">{view}{update}{delete}</div>',
+                "buttons" => [
+                    "view" => function ($url){
+                        return Html::a(Yii::t('app', 'view'), $url, ['class' => 'btn btn-sm btn-success']);
+                    },
+                    "update" => function ($url){
+                        $options = [
+                            'data-method' => 'post',
+                            'data-pjax' => '0',
+                            'class' => 'btn btn-sm btn-info'
+                        ];
+                        return Html::a(Yii::t('app', 'update'), $url, $options);
+                    },
+                    "delete" => function ($url){
+                        $options = [
+                            'aria-label' => Yii::t('app', 'delete'),
+                            'data-confirm' => '确认删除该记录?',
+                            'data-method' => 'post',
+                            'data-pjax' => '0',
+                            'class' => 'btn btn-sm btn-danger'
+                        ];
+                        return Html::a(Yii::t('app', 'delete'), $url, $options);
+                    }
+                ]
+            ],
+        ],
+    ],
     'params' => $params,
 ];

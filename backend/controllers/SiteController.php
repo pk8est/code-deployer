@@ -22,7 +22,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error', 'language'],
                         'allow' => true,
                     ],
                     [
@@ -97,4 +97,14 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+	
+	public function actionLanguage(){
+        $language=  \Yii::$app->request->get('lang');
+        if(isset($language)){
+            \Yii::$app->session['language']=$language;
+        }
+        //切换完语言哪来的返回到哪里
+        $this->goBack(\Yii::$app->request->headers['Referer']);
+    }
+
 }
