@@ -22,7 +22,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error', 'language'],
+                        'actions' => ['login', 'error', 'language', 'layout', 'skin'],
                         'allow' => true,
                     ],
                     [
@@ -99,12 +99,22 @@ class SiteController extends Controller
     }
 	
 	public function actionLanguage(){
-        $language=  \Yii::$app->request->get('lang');
+        $language=  Yii::$app->request->get('lang');
         if(isset($language)){
-            \Yii::$app->session['language']=$language;
+            Yii::$app->session['language']=$language;
         }
 		$this->redirect(Yii::$app->request->referrer);
 		
+    }
+
+    public function actionLayout(){
+        Yii::$app->session['page-layout'] = Yii::$app->request->get('layout');
+        $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionSkin(){
+        Yii::$app->session['skin-style'] = Yii::$app->request->get('style');
+        $this->redirect(Yii::$app->request->referrer);
     }
 
 }

@@ -51,7 +51,7 @@ use yii\widgets\ActiveForm;
     </div>
     <div class="box-footer">
         <?= "<?= " ?>Html::submitButton(<?= $generator->generateString('Save') ?>, ['class' => 'btn btn-success btn-flat']) ?>
-        <?= "<?= " ?>Html::a(<?= $generator->generateString('Retrun List') ?>, ['index'], ['class' => 'btn btn-info btn-flat']) ?>
+        <?= "<?= " ?>Html::a(<?= $generator->generateString('Return List') ?>, ['index'], ['class' => 'btn btn-info btn-flat']) ?>
     </div>
     <?= "<?php " ?>ActiveForm::end(); ?>
 </div>

@@ -5,6 +5,7 @@ return [
     'Return List' => '返回列表',
     'Create' => '创建',
     'Save'   => '保存',
+    'View'   => '查看',
     'Update' => '更新',
 	'Delete' => '删除',
 ];

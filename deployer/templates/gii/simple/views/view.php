@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-		<?= "<?= " ?>Html::a(<?= $generator->generateString('Retrun List') ?>, ['index'], ['class' => 'btn btn-info btn-flat pull-right']) ?>
+		<?= "<?= " ?>Html::a(<?= $generator->generateString('Return List') ?>, ['index'], ['class' => 'btn btn-info btn-flat pull-right']) ?>
     </div>
     <div class="box-body table-responsive no-padding">
         <?= "<?= " ?>DetailView::widget([

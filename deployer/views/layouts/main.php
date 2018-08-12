@@ -4,7 +4,6 @@ use yii\helpers\Html;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-
 if (Yii::$app->controller->action->id === 'login') { 
 /**
  * Do not use this code in your template. Remove it. 
@@ -16,13 +15,13 @@ if (Yii::$app->controller->action->id === 'login') {
     );
 } else {
 
-    if (class_exists('backend\assets\AppAsset')) {
-        backend\assets\AppAsset::register($this);
+    if (class_exists('deployer\assets\AppAsset')) {
+        deployer\assets\AppAsset::register($this);
     } else {
         app\assets\AppAsset::register($this);
     }
-	if (class_exists('backend\assets\AdminLtePluginAsset')){
-		backend\assets\AdminLtePluginAsset::register($this);
+	if (class_exists('deployer\assets\AdminLtePluginAsset')){
+		deployer\assets\AdminLtePluginAsset::register($this);
 	}
 
     dmstr\web\AdminLteAsset::register($this);
@@ -39,7 +38,9 @@ if (Yii::$app->controller->action->id === 'login') {
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
     </head>
-    <body class="hold-transition sidebar-mini <?= \dmstr\helpers\AdminLteHelper::skinClass() ?>">
+
+    <!-- <body class="hold-transition layout-boxed skin-blue sidebar-collapse fixed "> -->
+    <body class="hold-transition <?= \Yii::$app->session['page-layout'] ?> <?= \Yii::$app->session['skin-style'] ?> <?= \dmstr\helpers\AdminLteHelper::skinClass() ?>">
     <?php $this->beginBody() ?>
     <div class="wrapper">
 

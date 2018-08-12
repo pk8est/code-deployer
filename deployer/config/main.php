@@ -72,7 +72,6 @@ return [
 		'assetManager' => [
       		'bundles' => [
             	'dmstr\web\AdminLteAsset' => [
-                	'skin' => 'skin-blue',
 					//'skin' => 'skin-blue',
 					//'skin' => 'skin-black',
 					//'skin' => 'skin-red',
@@ -130,25 +129,25 @@ return [
                 'template' => '<div class="btn-group">{view}{update}{delete}</div>',
                 "buttons" => [
                     "view" => function ($url){
-                        return Html::a(Yii::t('app', 'view'), $url, ['class' => 'btn btn-sm btn-success']);
+                        return Html::a(Yii::t('app', 'View'), $url, ['class' => 'btn btn-sm btn-success']);
                     },
                     "update" => function ($url){
                         $options = [
                             'data-method' => 'post',
-                            'data-pjax' => '0',
+                            'data-pjax' => '1',
                             'class' => 'btn btn-sm btn-info'
                         ];
-                        return Html::a(Yii::t('app', 'update'), $url, $options);
+                        return Html::a(Yii::t('app', 'Update'), $url, $options);
                     },
                     "delete" => function ($url){
                         $options = [
                             'aria-label' => Yii::t('app', 'delete'),
                             'data-confirm' => '确认删除该记录?',
                             'data-method' => 'post',
-                            'data-pjax' => '0',
+                            'data-pjax' => '1',
                             'class' => 'btn btn-sm btn-danger'
                         ];
-                        return Html::a(Yii::t('app', 'delete'), $url, $options);
+                        return Html::a(Yii::t('app', 'Delete'), $url, $options);
                     }
                 ]
             ],
