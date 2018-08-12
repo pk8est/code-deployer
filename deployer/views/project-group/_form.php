@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ProjectGroup */
@@ -12,21 +13,13 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
     <div class="box-body table-responsive">
 
-        <?= $form->field($model, 'creater_id')->textInput() ?>
-
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'desc')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'status')->textInput() ?>
+        <?= $form->field($model, 'status')->dropdownList(ArrayHelper::map($model::$statusArr, 'value', 'name')) ?>
 
         <?= $form->field($model, 'type')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'created_at')->textInput() ?>
-
-        <?= $form->field($model, 'updated_at')->textInput() ?>
-
-        <?= $form->field($model, 'deleted_at')->textInput() ?>
 
         <?= $form->field($model, 'order')->textInput() ?>
 
@@ -35,6 +28,8 @@ use yii\widgets\ActiveForm;
     </div>
     <div class="box-footer">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success btn-flat']) ?>
+
+        <?= Html::a(Yii::t('app', 'Return List'), ['index'], ['class' => 'btn btn-info btn-flat']) ?>
     </div>
     <?php ActiveForm::end(); ?>
 </div>

@@ -3,10 +3,9 @@
 namespace common\models;
 
 use Yii;
-use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "cd_project_group".
+ * This is the model class for table "cd_server_group".
  *
  * @property string $id
  * @property int $creater_id 创建人ID
@@ -20,20 +19,14 @@ use yii\helpers\ArrayHelper;
  * @property int $order
  * @property string $remark 备注
  */
-class ProjectGroup extends CommonModel
+class ServerGroup extends \common\models\CommonModel
 {
-
-    public static $statusArr = [
-        ['name' => '正常', 'value' => 1],
-        ['name' => '停用', 'value' => -1],
-    ];
-
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'cd_project_group';
+        return 'cd_server_group';
     }
 
     /**
@@ -42,11 +35,8 @@ class ProjectGroup extends CommonModel
     public function rules()
     {
         return [
-            [['name'], 'required'],
-            [['order'], 'integer'],
-            [['order'], 'default', 'value' => 0],
-            [['status'], 'in', 'range' => ArrayHelper::getColumn(self::$statusArr, 'value')],
-            [['updated_at', 'created_at', 'creater_id'], 'safe'],
+            [['creater_id', 'status', 'created_at', 'deleted_at', 'order'], 'integer'],
+            [['updated_at'], 'safe'],
             [['remark'], 'string'],
             [['name'], 'string', 'max' => 255],
             [['desc'], 'string', 'max' => 1000],
@@ -72,5 +62,14 @@ class ProjectGroup extends CommonModel
             'order' => Yii::t('app', 'Order'),
             'remark' => Yii::t('app', 'Remark'),
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return ServerGroupQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new ServerGroupQuery(get_called_class());
     }
 }

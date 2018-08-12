@@ -103,8 +103,8 @@ class SiteController extends Controller
         if(isset($language)){
             \Yii::$app->session['language']=$language;
         }
-        //切换完语言哪来的返回到哪里
-        $this->goBack(\Yii::$app->request->headers['Referer']);
+		$this->redirect(Yii::$app->request->referrer);
+		
     }
 
 }

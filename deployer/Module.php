@@ -15,8 +15,7 @@ class Module extends BaseModule
 		);
 		
 		$this->modules = ArrayHelper::getValue($config, 'modules', []);
-		$this->loadComponents($config);i
-		print_r($config);die;
+		$this->loadComponents($config);
 		Yii::configure($this, $config);
     }
 

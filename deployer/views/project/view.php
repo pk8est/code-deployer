@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a(Yii::t('app', 'Return List'), ['index'], ['class' => 'btn btn-info btn-flat pull-right']) ?>
     </div>
     <div class="box-body table-responsive no-padding">
         <?= DetailView::widget([
@@ -39,9 +40,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'status',
                 'type',
                 'published_at',
-                'created_at:datetime',
-                'updated_at:datetime',
-                'deleted_at',
+                'created_at:date',
+                'updated_at',
+                'deleted_at:date',
                 'order',
                 'remark:ntext',
             ],

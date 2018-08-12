@@ -15,6 +15,8 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'deployer\controllers',
 	'defaultRoute' => 'project',
+    'language' => 'zh-CN',
+    'timeZone' => 'Asia/Shanghai',
     'bootstrap' => ['log'],
     'modules' => [
 		'admin' => [
@@ -62,6 +64,11 @@ return [
 				],
 			],
 		],
+        'formatter' => [
+            'dateFormat' => 'yyyy-MM-dd HH:mm:ss',
+            'timeFormat' => 'HH:mm:ss',
+            'datetimeFormat' => 'yyyy-MM-dd HH:mm:ss'
+       ],
 		'assetManager' => [
       		'bundles' => [
             	'dmstr\web\AdminLteAsset' => [
@@ -96,8 +103,8 @@ return [
                 'tableOptions' => [
                     'class' => 'table table-striped table-bordered'
                 ],
-                'summary'   => '<div class="pull-left">共{totalCount}条记录，每页{pageCount}条</div>',
-                'layout' => "{summary}\n{items}\n{pager}",
+                'summary'   => '<div class="pull-right">共{totalCount}条记录，每页{pageCount}条</div>',
+                'layout' => "{items}\n{pager}\n{summary}",
             ],
             'yii\widgets\LinkPager' => [
                 //'p;revPageLabel' => '',
@@ -105,6 +112,17 @@ return [
                 'firstPageLabel' => '首页', 
                 'lastPageLabel' => '尾页', 
             ],
+            /*'yii\widgets\ActiveForm' => [
+                'options' => [
+                    'class' => 'form-horizontal',
+                ],
+            ],
+            'yii\widgets\ActiveField' => [
+                'template' => "{label}\n<div class=\"col-sm-9\">{input}</div>\n{hint}\n{error}",
+                'labelOptions' => [
+                    'class' => 'col-sm-3 control-label',
+                ],
+            ],*/
             'yii\grid\ActionColumn' => [
                 'header' => '操作',
                 'headerOptions'=> ['width'=> '190'],

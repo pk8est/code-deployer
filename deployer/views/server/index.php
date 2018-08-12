@@ -4,16 +4,16 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel deployer\models\ProjectGroupSearch */
+/* @var $searchModel deployer\models\ServerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Project Groups');
+$this->title = Yii::t('app', 'Servers');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="project-group-index box box-primary">
+<div class="server-index box box-primary">
     <?php Pjax::begin(); ?>
     <div class="box-header with-border">
-        <?= Html::a(Yii::t('app', 'Create Project Group'), ['create'], ['class' => 'btn btn-info btn-flat pull-right']) ?>
+        <?= Html::a(Yii::t('app', 'Create Server'), ['create'], ['class' => 'btn btn-success btn-flat']) ?>
     </div>
     <div class="box-body table-responsive no-padding">
         <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -25,11 +25,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 ['class' => 'yii\grid\SerialColumn'],
 
                 'id',
+                'room_id',
                 'creater_id',
                 'name',
                 'desc',
-                'status',
+                // 'ip',
+                // 'inner_ip',
+                // 'ssh_private_key',
+                // 'status',
                 // 'type',
+                // 'level',
                 // 'created_at',
                 // 'updated_at',
                 // 'deleted_at',

@@ -29,12 +29,12 @@
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => mdm\admin\components\MenuHelper::getAssignedMenu(Yii::$app->user->id, null, function($menu){
-	$data = (array)eval($menu['data']);
+	$data = json_decode($menu['data'], true);
 	return [
 		'label'   => $menu['name'],
 		'icon'    => isset($data['icon']) ? $data['icon'] : '',
 		'url'     => mdm\admin\components\MenuHelper::parseRoute($menu['route']),
-		'options' => $data,
+		'options' => (array) $data,
 		'items'   => $menu['children'],
 	];
 }) 

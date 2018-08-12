@@ -3,17 +3,16 @@
 namespace deployer\controllers;
 
 use Yii;
-use common\models\Project;
-use common\models\ProjectGroup;
-use deployer\models\ProjectSearch;
-use yii\web\Controller;
+use common\models\Server;
+use deployer\models\ServerSearch;
+use deployer\controllers\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ProjectController implements the CRUD actions for Project model.
+ * ServerController implements the CRUD actions for Server model.
  */
-class ProjectController extends Controller
+class ServerController extends BaseController
 {
     /**
      * @inheritdoc
@@ -31,43 +30,40 @@ class ProjectController extends Controller
     }
 
     /**
-     * Lists all Project models.
+     * Lists all Server models.
      * @return mixed
      */
     public function actionIndex()
     {
-
-        $searchModel = new ProjectSearch();
+        $searchModel = new ServerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'projectGroups' => ProjectGroup::find()->all(),
         ]);
     }
 
     /**
-     * Displays a single Project model.
+     * Displays a single Server model.
      * @param string $id
      * @return mixed
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id);
         return $this->render('view', [
-            'model' => $model,
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new Project model.
+     * Creates a new Server model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Project();
+        $model = new Server();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -79,7 +75,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Updates an existing Project model.
+     * Updates an existing Server model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -98,7 +94,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Deletes an existing Project model.
+     * Deletes an existing Server model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -111,15 +107,15 @@ class ProjectController extends Controller
     }
 
     /**
-     * Finds the Project model based on its primary key value.
+     * Finds the Server model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return Project the loaded model
+     * @return Server the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Project::findOne($id)) !== null) {
+        if (($model = Server::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -27,7 +27,7 @@ use Yii;
  * @property int $order
  * @property string $remark 备注
  */
-class Project extends \yii\db\ActiveRecord
+class Project extends CommonModel
 {
     /**
      * {@inheritdoc}
@@ -43,6 +43,8 @@ class Project extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['project_group_id', 'name'], 'required'],
+            [['creater_id', 'project_group_id', 'repo_type', 'status', 'published_at', 'created_at', 'deleted_at', 'order'], 'default', 'value' => 0],
             [['creater_id', 'project_group_id', 'repo_type', 'status', 'published_at', 'created_at', 'deleted_at', 'order'], 'integer'],
             [['updated_at'], 'safe'],
             [['remark'], 'string'],
@@ -78,5 +80,16 @@ class Project extends \yii\db\ActiveRecord
             'order' => Yii::t('app', 'Order'),
             'remark' => Yii::t('app', 'Remark'),
         ];
+    }
+
+    public function getProjectGroup()
+    {
+        return $this->hasOne(ProjectGroup::className(), ['id' => 'project_group_id']);
+    }
+
+
+    public function afterFind()
+    {
+        return parent::afterFind();
     }
 }

@@ -3,37 +3,35 @@
 namespace common\models;
 
 use Yii;
-use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "cd_project_group".
+ * This is the model class for table "cd_server".
  *
  * @property string $id
+ * @property int $room_id 机房
  * @property int $creater_id 创建人ID
  * @property string $name
  * @property string $desc
+ * @property string $ip 外网
+ * @property string $inner_ip 内网
+ * @property string $ssh_private_key
  * @property int $status
  * @property string $type 类型
+ * @property string $level 级别
  * @property int $created_at
  * @property string $updated_at
  * @property int $deleted_at
  * @property int $order
  * @property string $remark 备注
  */
-class ProjectGroup extends CommonModel
+class Server extends \common\models\CommonModel
 {
-
-    public static $statusArr = [
-        ['name' => '正常', 'value' => 1],
-        ['name' => '停用', 'value' => -1],
-    ];
-
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'cd_project_group';
+        return 'cd_server';
     }
 
     /**
@@ -42,15 +40,12 @@ class ProjectGroup extends CommonModel
     public function rules()
     {
         return [
-            [['name'], 'required'],
-            [['order'], 'integer'],
-            [['order'], 'default', 'value' => 0],
-            [['status'], 'in', 'range' => ArrayHelper::getColumn(self::$statusArr, 'value')],
-            [['updated_at', 'created_at', 'creater_id'], 'safe'],
+            [['room_id', 'creater_id', 'status', 'created_at', 'deleted_at', 'order'], 'integer'],
+            [['updated_at'], 'safe'],
             [['remark'], 'string'],
-            [['name'], 'string', 'max' => 255],
-            [['desc'], 'string', 'max' => 1000],
-            [['type'], 'string', 'max' => 50],
+            [['name', 'ip', 'inner_ip'], 'string', 'max' => 255],
+            [['desc', 'ssh_private_key'], 'string', 'max' => 1000],
+            [['type', 'level'], 'string', 'max' => 50],
         ];
     }
 
@@ -61,16 +56,30 @@ class ProjectGroup extends CommonModel
     {
         return [
             'id' => Yii::t('app', 'ID'),
+            'room_id' => Yii::t('app', 'Room ID'),
             'creater_id' => Yii::t('app', 'Creater ID'),
             'name' => Yii::t('app', 'Name'),
             'desc' => Yii::t('app', 'Desc'),
+            'ip' => Yii::t('app', 'Ip'),
+            'inner_ip' => Yii::t('app', 'Inner Ip'),
+            'ssh_private_key' => Yii::t('app', 'Ssh Private Key'),
             'status' => Yii::t('app', 'Status'),
             'type' => Yii::t('app', 'Type'),
+            'level' => Yii::t('app', 'Level'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'deleted_at' => Yii::t('app', 'Deleted At'),
             'order' => Yii::t('app', 'Order'),
             'remark' => Yii::t('app', 'Remark'),
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return ServerQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new ServerQuery(get_called_class());
     }
 }
