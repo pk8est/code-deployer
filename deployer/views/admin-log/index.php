@@ -6,18 +6,17 @@ use yii\widgets\Pjax;
 use mdm\admin\components\Helper;
 
 /* @var $this yii\web\View */
-/* @var $searchModel deployer\models\ServerRoomSearch */
+/* @var $searchModel deployer\models\LogSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Server Rooms');
+$this->title = Yii::t('app', 'Admin Logs');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="server-room-index box box-primary">
+<div class="log-index box box-primary">
     <?php Pjax::begin(); ?>
     <div class="box-header with-border">
-        <?= Helper::checkRoute('create') ? Html::a(Yii::t('app', 'Create Server Room'), ['create'], ['class' => 'btn btn-info btn-flat pull-right']) : "" ?>
     </div>
-    <div class="box-body table-responsive ">
+    <div class="box-body table-responsive">
         <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
@@ -26,20 +25,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 ['class' => 'yii\grid\SerialColumn'],
 
                 'id',
-                'creater_id',
-                'name',
-                'desc',
-                'status',
-                // 'type',
-                // 'created_at',
-                // 'updated_at',
-                // 'deleted_at',
-                // 'order',
-                // 'remark:ntext',
+				'uid',
+                'level',
+				'type',
+				'title',
+                'category',
+                'server_ip',
+                'client_ip',
+                'log_time:date',
+                'prefix:ntext',
+                // 'message:ntext',
 
 				[
                     'class' => 'yii\grid\ActionColumn',
-					'template' => '<div class="btn-group">'.Helper::filterActionColumn(['view', 'update', 'delete']).'</div>',
+					'template' => '<div class="btn-group">'.Helper::filterActionColumn(['view']).'</div>',
                 ],
             ],
         ]); ?>

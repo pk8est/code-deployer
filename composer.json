@@ -35,6 +35,12 @@
             "enabled": false
         }
     },
+	"autoload": {
+		"files": [
+			"common/foundation/functions.php",
+			"common/foundation/arrays.php"
+		]
+	},
     "repositories": [
     ]
 }

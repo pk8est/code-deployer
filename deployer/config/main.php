@@ -39,12 +39,24 @@ return [
             'name' => 'advanced-backend',
         ],
         'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
+            //'traceLevel' => YII_DEBUG ? 3 : 0,
+			'traceLevel' => 0, 
             'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                ],
+				[
+					'class' => 'yii\log\FileTarget',
+					'levels' => ['error', 'warning', 'info'],
+					'logVars' => ['_GET', '_POST'],
+					//'categories' => ['application'],
+					'logFile' => '@runtime/logs/app.log',
+					//'maxFileSize' => 1024 * 100,  //设置文件大小，以k为单位
+				],
+				[
+					'class' => 'common\components\DbTargetLog',
+					'categories' => ['app', 'deployer', 'common'],
+					'logTable' => 'cd_admin_log',
+					'logVars' => ['*'], //只记录message
+            		'levels' => ['error', 'warning', 'info'],
+        		],
             ],
         ],
         'errorHandler' => [

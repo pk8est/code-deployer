@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="box-header with-border">
         <?= Helper::checkRoute('create') ? Html::a(Yii::t('app', 'Create Project'), ['create'], ['class' => 'btn btn-info btn-flat pull-right']) : "" ?>
     </div>
-    <div class="box-body table-responsive no-padding">
+    <div class="box-body table-responsive ">
         <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,

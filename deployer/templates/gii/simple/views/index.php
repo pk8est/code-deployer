@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>    <div class="box-header with-border">
         <?= "<?= " ?>Helper::checkRoute('create') ? Html::a(<?= $generator->generateString('Create ' . Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>, ['create'], ['class' => 'btn btn-info btn-flat pull-right']) : "" ?>
     </div>
-    <div class="box-body table-responsive no-padding">
+    <div class="box-body table-responsive">
 <?php if(!empty($generator->searchModelClass)): ?>
 <?= "        <?php " . ($generator->indexWidgetType === 'grid' ? "// " : "") ?>echo $this->render('_search', ['model' => $searchModel]); ?>
 <?php endif;

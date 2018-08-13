@@ -1,3 +1,6 @@
+<?php
+	$_userRole = (array) current(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id));
+?>
 <aside class="main-sidebar">
 
     <section class="sidebar">
@@ -8,9 +11,9 @@
                 <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
+                <p><?= e(Yii::$app->user->identity->username) ?></p>
 
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                <a href="#"><i class="fa fa-circle text-success"></i><?= e(\yii\helpers\ArrayHelper::getValue($_userRole, 'name')) ?></a>
             </div>
         </div>
 
