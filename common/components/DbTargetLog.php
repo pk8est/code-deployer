@@ -32,22 +32,23 @@ class DbTargetLog extends DbTarget{
 					$title = $text->title;
 					$message = $text->message;
 					$text = $message;
-				}else if ($text instanceof \Throwable || $text instanceof \Exception) {
+				}
+				if ($text instanceof \Throwable || $text instanceof \Exception) {
                     $text = (string) $text;
                 } else {
                     $text = VarDumper::export($text);
                 }
             }
             if ($command->bindValues([
-					':uid' => $uid,
+					':uid' => (int)$uid,
                     ':level' => $level,
                     ':category' => $category,
                     ':log_time' => $timestamp,
-					':type' => $type,
-					':title' => $title,
+					':type' => (string)$type,
+					':title' => (string)$title,
                     ':prefix' => $this->getMessagePrefix($message),
-					':server_ip' => $_SERVER['SERVER_ADDR'],
-					':client_ip' => Yii::$app->request->userIP,
+					':server_ip' => (string)$_SERVER['SERVER_ADDR'],
+					':client_ip' => (string)Yii::$app->request->userIP,
                     ':message' => $text,
                 ])->execute() > 0) {
                 continue;

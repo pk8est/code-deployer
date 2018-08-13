@@ -6,6 +6,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use deployer\events\Events;
 use deployer\events\LoginEvent;
 use deployer\events\LogoutEvent;
 /**
@@ -56,8 +57,8 @@ class SiteController extends Controller
 
 	public function init(){
 		parent::init();
-		$this->on(LoginEvent::EVENT_USER_LOGIN, ['deployer\events\UserEventHandler', 'login']);
-		$this->on(LogoutEvent::EVENT_USER_LOGOUT, ['deployer\events\UserEventHandler', 'logout']);
+		$this->on(Events::EVENT_USER_LOGIN, ['deployer\events\UserEventHandler', 'login']);
+		$this->on(Events::EVENT_USER_LOGOUT, ['deployer\events\UserEventHandler', 'logout']);
 	}
 
     /**
@@ -82,7 +83,7 @@ class SiteController extends Controller
         }
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-			$this->trigger(LoginEvent::EVENT_USER_LOGIN, new LoginEvent(true, Yii::$app->user->id, $model->username));
+			$this->trigger(Events::EVENT_USER_LOGIN, new LoginEvent(true, Yii::$app->user->id, $model->username));
             return $this->goBack();
         } else {
             $model->password = '';
@@ -91,7 +92,7 @@ class SiteController extends Controller
             ]);
         }
 		if(Yii::$app->request->isPost){
-			$this->trigger(LoginEvent::EVENT_USER_LOGIN, new LoginEvent(false, 0, $model->username));
+			$this->trigger(Events::EVENT_USER_LOGIN, new LoginEvent(false, 0, $model->username));
 
 		}
 		
@@ -104,7 +105,7 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
-		$this->trigger(LogoutEvent::EVENT_USER_LOGOUT, new LogoutEvent(Yii::$app->user->id, Yii::$app->user->identity->username));
+		$this->trigger(Events::EVENT_USER_LOGOUT, new LogoutEvent(Yii::$app->user->id, Yii::$app->user->identity->username));
         Yii::$app->user->logout();
         return $this->goHome();
     }

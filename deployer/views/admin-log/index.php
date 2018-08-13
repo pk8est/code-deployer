@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax; 
 use mdm\admin\components\Helper;
+use deployer\events\Events;
 
 /* @var $this yii\web\View */
 /* @var $searchModel deployer\models\LogSearch */
@@ -27,7 +28,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id',
 				'uid',
                 'level',
-				'type',
+				[
+					'attribute' => 'type',
+					'format' => 'html',
+					'filter' => array_list(Events::getAll(), 'desc'),
+					'value' => function($model){
+						$item = Events::get($model->type); 
+						return '<span class="label label-'.e($item['code']).'">'.e($item['desc']).'</span>';
+					}
+				],
 				'title',
                 'category',
                 'server_ip',

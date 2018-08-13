@@ -4,7 +4,6 @@ namespace deployer\events;
 use yii\base\Event;
 
 class LogoutEvent extends Event{
-	const EVENT_USER_LOGOUT = 'event_user_logout';
 	public $uid;
 	public $username;
 
