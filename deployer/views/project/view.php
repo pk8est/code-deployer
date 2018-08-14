@@ -50,6 +50,12 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </div>
 	<div class="box-footer">
-        <?= Helper::checkRoute('/deployment/deploy') ? Html::a(Yii::t('app', 'Deploy Project'), ['/deployment/deploy', 'id' => $model->id], ['class' => 'btn btn-success btn-flat']) : '' ?>
+		<?php 
+			if(Helper::checkRoute('/deployment/deploy')){
+				foreach($model->commandActions as $key => $commandAction){
+					echo  Html::a(Yii::t('app', $commandAction->name), ['/deployment/deploy', 'id' => $model->id, 'action_id' => $commandAction->id], ['class' => 'btn btn-success btn-flat', 'target' => '_brank']);
+				}
+			} 
+		?>
 	</div>
 </div>

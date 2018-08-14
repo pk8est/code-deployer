@@ -87,6 +87,13 @@ class Project extends CommonModel
         return $this->hasOne(ProjectGroup::className(), ['id' => 'project_group_id']);
     }
 
+	public function getCommandActions(){
+		return $this->hasMany(CommandAction::className(), ['id' => 'action_id'])->via('projectActions');
+	}
+	
+	public function getProjectActions(){
+		return $this->HasMany(ProjectAction::class, ['project_id' => 'id']);
+	}
 
     public function afterFind()
     {

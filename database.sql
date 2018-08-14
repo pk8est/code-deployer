@@ -194,7 +194,7 @@ CREATE TABLE `cd_project_job` (
   KEY `type` (`type`),
   KEY `started_at` (`started_at`),
   KEY `updated_at` (`updated_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT '';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT '';
 
 
 DROP TABLE IF EXISTS `cd_project_action`;
@@ -206,7 +206,7 @@ CREATE TABLE `cd_project_action` (
   PRIMARY KEY (`id`),
   KEY `project_id` (`project_id`),
   KEY `action_id` (`action_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT '';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT '';
 
 
 DROP TABLE IF EXISTS `cd_command_script`;
@@ -218,6 +218,7 @@ CREATE TABLE `cd_command_script` (
   `runner` varchar(50) NOT NULL DEFAULT '' COMMENT 'run as',
   `status` tinyint(4) NOT NULL DEFAULT '1',
   `type` varchar(50) NOT NULL DEFAULT '' COMMENT '类型',
+  `is_local` enum('0', '1') NOT NULL DEFAULT '0' COMMENT '0:远程, 1:本地',	
   `created_at` int(10) unsigned NOT NULL DEFAULT '0',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` int(10) unsigned NOT NULL DEFAULT '0',
@@ -228,7 +229,7 @@ CREATE TABLE `cd_command_script` (
   KEY `name` (`name`),
   KEY `type` (`type`),
   KEY `updated_at` (`updated_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT '';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT '';
 
 
 DROP TABLE IF EXISTS `cd_command_action`;
@@ -248,7 +249,7 @@ CREATE TABLE `cd_command_action` (
   KEY `name` (`name`),
   KEY `type` (`type`),
   KEY `updated_at` (`updated_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT '';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT '';
 
 
 DROP TABLE IF EXISTS `cd_command_action_script`;
@@ -260,7 +261,7 @@ CREATE TABLE `cd_command_action_script` (
   PRIMARY KEY (`id`),
   KEY `action_id` (`action_id`),
   KEY `script_id` (`script_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT '';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT '';
 
 
 DROP TABLE IF EXISTS `cd_command_step`;
@@ -270,6 +271,7 @@ CREATE TABLE `cd_command_step` (
   `script` text NOT NULL ,
   `script_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '',
   `type` varchar(50) NOT NULL DEFAULT '' COMMENT '类型',
+  `is_local` enum('0', '1') NOT NULL DEFAULT '0' COMMENT '0:远程, 1:本地',
   `status` tinyint(4) NOT NULL DEFAULT '1',
   `action_type` enum('1','2') NOT NULL DEFAULT 1 COMMENT '1:before, 2:after',
   `optional` tinyint(4) NOT NULL DEFAULT 1 COMMENT '可选',
@@ -283,7 +285,7 @@ CREATE TABLE `cd_command_step` (
   PRIMARY KEY (`id`),
   KEY `script_id` (`script_id`),
   KEY `updated_at` (`updated_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT '';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT '';
 
 
 DROP TABLE IF EXISTS `cd_command_job`;
@@ -310,5 +312,17 @@ CREATE TABLE `cd_command_job` (
   KEY `step_id` (`step_id`),
   KEY `server_ip` (`server_ip`),
   KEY `updated_at` (`updated_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT '';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT '';
 
+DROP TABLE IF EXISTS `cd_project_action_server`;
+CREATE TABLE `cd_project_action_server` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `project_id` bigint(20) NOT NULL DEFAULT '0',
+  `action_id` bigint(20) NOT NULL DEFAULT '0',
+  `server_id` bigint(20) NOT NULL DEFAULT '0',
+  `order` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `project_id` (`project_id`),
+  KEY `server_id` (`server_id`),
+  KEY `action_id` (`action_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
