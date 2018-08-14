@@ -104,6 +104,7 @@ class ProjectJob extends \common\models\CommonModel
 		$this->save();
 	}
 
+
 	public function getCommandScripts(){
 		return $this->hasMany(CommandScript::className(), ['id' => 'script_id'])->via('commandActionScripts')->orderBy('order ASC');
 	}

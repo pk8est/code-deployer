@@ -93,6 +93,7 @@ CREATE TABLE `cd_server` (
   `desc` varchar(1000) NOT NULL DEFAULT '' COMMENT '',
   `ip` varchar(255) NOT NULL DEFAULT '' COMMENT '外网',
   `inner_ip` varchar(255) NOT NULL DEFAULT '' COMMENT '内网',
+  `port` int(6) NOT NULL DEFAULT 22 COMMENT '端口',
   `ssh_private_key` varchar(1000) NOT NULL DEFAULT '' COMMENT '',
   `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '',
   `type` varchar(50) NOT NULL DEFAULT '' COMMENT '类型',
