@@ -59,6 +59,7 @@ class SiteController extends Controller
 		parent::init();
 		$this->on(Events::EVENT_USER_LOGIN, ['deployer\events\UserEventHandler', 'login']);
 		$this->on(Events::EVENT_USER_LOGOUT, ['deployer\events\UserEventHandler', 'logout']);
+		$this->off(Events::EVENT_ACTION_BEFORE);
 	}
 
     /**

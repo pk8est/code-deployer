@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) : '' ?>
 		<?= Html::a(Yii::t('app', 'Return List'), ['index'], ['class' => 'btn btn-info btn-flat pull-right']) ?>
     </div>
-    <div class="box-body table-responsive no-padding">
+    <div class="box-body table-responsive">
         <?= DetailView::widget([
             'model' => $model,
             'attributes' => [
@@ -49,4 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </div>
+	<div class="box-footer">
+        <?= Helper::checkRoute('/deployment/deploy') ? Html::a(Yii::t('app', 'Deploy Project'), ['/deployment/deploy', 'id' => $model->id], ['class' => 'btn btn-success btn-flat']) : '' ?>
+	</div>
 </div>

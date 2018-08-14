@@ -27,12 +27,12 @@ return [
 	],
     'components' => [
         'request' => [
-            'csrfParam' => '_csrf-backend',
+            'csrfParam' => '_csrf-deployer',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+            'identityCookie' => ['name' => '_identity-deployer', 'httpOnly' => true],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
@@ -99,6 +99,9 @@ return [
             	],
         	],
     	],
+		'deployer' => [
+			'class' => 'deployer\services\DeployService'
+		],
         
     ],
 	'as access' => [
@@ -108,9 +111,9 @@ return [
 			//'*',
 		]
 	],
-	'on beforeRequest' => function($event) {
+	//'on beforeRequest' => function($event) {
         //\yii\base\Event::on(\yii\db\BaseActiveRecord::className(), \yii\db\BaseActiveRecord::EVENT_AFTER_UPDATE, ['backend\components\AdminLog', 'write']);
-    },
+    //},
 	'on beforeAction' => ['deployer\events\UserEventHandler', 'beforeAction'],
 	'container' => [
         'definitions' => [

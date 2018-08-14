@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) : '' ?>
 		<?= "<?= " ?>Helper::checkRoute('index') ? Html::a(<?= $generator->generateString('Return List') ?>, ['index'], ['class' => 'btn btn-info btn-flat pull-right']) : '' ?>
     </div>
-    <div class="box-body table-responsive no-padding">
+    <div class="box-body table-responsive">
         <?= "<?= " ?>DetailView::widget([
             'model' => $model,
             'attributes' => [
