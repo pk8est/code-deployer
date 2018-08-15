@@ -3,6 +3,9 @@
 namespace common\models;
 
 use Yii;
+use common\models\ProjectJob;
+use common\models\CommandScript;
+use common\models\CommandStep;
 
 /**
  * This is the model class for table "cd_command_job".
@@ -26,6 +29,11 @@ use Yii;
  */
 class CommandJob extends \common\models\CommonModel
 {
+	const COMMAND_JOB_RUN_WAIT = 0;
+	const COMMAND_JOB_RUN_STARTED = 1;
+	const COMMAND_JOB_RUN_FINISHED = 10;
+	const COMMAND_JOB_RUN_FAILED = -9;
+
     /**
      * {@inheritdoc}
      */
@@ -82,4 +90,17 @@ class CommandJob extends \common\models\CommonModel
     {
         return new CommandJobQuery(get_called_class());
     }
+
+	public static function build(ProjectJob $job, CommandScript $script = null, CommandStep $step = null){
+		$commandJob = new static();
+		$commandJob->creater_id = $job === null ? 0 : $job->creater_id;
+		$commandJob->job_id = $job === null ? 0 : $job->id;
+		$commandJob->script_id = $script === null ? 0 : $script->id;
+		$commandJob->step_id = $step === null ? 0 : $step->id;
+		$commandJob->type = $step === null ? 'script' : 'step';
+		$commandJob->status = self::COMMAND_JOB_RUN_STARTED; 
+		$commandJob->started_at = time();
+		return $commandJob; 
+	}
+
 }

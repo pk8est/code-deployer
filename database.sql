@@ -292,6 +292,7 @@ CREATE TABLE `cd_command_step` (
 DROP TABLE IF EXISTS `cd_command_job`;
 CREATE TABLE `cd_command_job` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `creater_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '创建人ID',
   `job_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '',
   `script_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '',
   `step_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '',
@@ -300,6 +301,7 @@ CREATE TABLE `cd_command_job` (
   `type` varchar(50) NOT NULL DEFAULT '' COMMENT 'script/step',
   `status` tinyint(4) NOT NULL DEFAULT '1',
   `server_ip` varchar(20) NOT NULL DEFAULT '' COMMENT '',
+  `optional` tinyint(4) NOT NULL DEFAULT 1 COMMENT '可选',
   `started_at` int(10) unsigned NOT NULL DEFAULT '0',
   `finished_at` int(10) unsigned NOT NULL DEFAULT '0',
   `created_at` int(10) unsigned NOT NULL DEFAULT '0',
@@ -321,6 +323,7 @@ CREATE TABLE `cd_project_action_server` (
   `project_id` bigint(20) NOT NULL DEFAULT '0',
   `action_id` bigint(20) NOT NULL DEFAULT '0',
   `server_id` bigint(20) NOT NULL DEFAULT '0',
+  `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '',
   `order` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `project_id` (`project_id`),

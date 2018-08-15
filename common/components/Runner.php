@@ -12,11 +12,8 @@ class Runner{
 	private $process;
 	private $script;
 	private $server;
-	private $ip;
-	private $port;
-	private $privateKey;
-	private $user;
-	private $isLocal;
+	private $runner = 'root';
+	private $isLocal = true;
 
 
 	public function __call($method, array $arguments = []){
@@ -27,15 +24,12 @@ class Runner{
         return call_user_func_array([$this->process, $method], $arguments);
     }
 
-	public function __construct($input, array $tokens = [], $scriptSource = self::DIRECT_INPUT){
+	public function __construct($script, $runner = '', $server = null){
 		$this->process = new Process('');
 		$this->process->setTimeout(null);
-		
-		if($script_source === true){
-			$this->script = Parser::parseFile($input, $tokens);
-		}else{
-			$this->script = Parser::parseString($input, $tokens);
-		}	
+		$this->setScript($script);	
+		$this->setRunner($runner);
+		$this->setServer($server);
 	}
 
 	public function run($callback = null){
@@ -48,16 +42,21 @@ class Runner{
 		return $script;
 	}
 
-	public function setRemote($ip, $port, $privateKey){
-		$this->ip = $ip;
-		$this->port = $port;
-		$this->privateKey = $privateKey;
-		$this->isLocal = false;
-		return $this;
+	public function setScript($script){
+		$this->script = $script;
 	}
 
-	public function setUser($user){
-		$this->user = $user;
+	public function setRunner($runner){
+		if($runner){
+			$this->runner = $runner;
+		}
+	}
+
+	public function setServer($server){
+		if($server !== null){
+			$this->server = $server;
+			$this->isLocal = false;
+		}
 	}
 
 }

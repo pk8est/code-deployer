@@ -54,7 +54,7 @@ class DeployService extends BaseService{
 		if($action->is_local){
 			//$this->runLocalCommandScript($job, $action, $script);
 		}else{
-			//$this->runRemoteCommandScipt($job, $action, $script, $job->actionServers);
+			//$this->runRemoteCommandScipt($job, $action, $script, $job->activeActionServers);
 		}		
 
 		if($script->afterSteps){
@@ -73,13 +73,15 @@ class DeployService extends BaseService{
 		if($step->is_local){
 			$this->runScript($step->script, [], $step->runner);
 		}else{
-			foreach($job->actionServers as $key => $server){
+			foreach($job->activeActionServers as $key => $server){
 				$this->runScript($step->script, [], $step->runner, $server);
 			}
 		}
 	}
 
+
 	public function runScript($script, $tokens = [], $user = null, $server = null){
+		$commandLog = CommandJob::build();
 		$process = new Process($script, $tokens);
 		if($server){
 			$process->setRemote($server->ip, $server->port, $server->ssh_private_key);

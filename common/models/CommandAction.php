@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use common\models\CommandScript;
 
 /**
  * This is the model class for table "cd_command_action".
@@ -69,4 +70,13 @@ class CommandAction extends \common\models\CommonModel
     {
         return new CommandActionQuery(get_called_class());
     }
+	
+	public function getCommandScripts(){
+		return $this->hasMany(CommandScript::className(), ['id' => 'script_id'])->via('commandActionScripts');
+	}
+
+	public function getCommandActionScripts(){
+		return $this->hasMany(CommandActionScript::className(), ['action_id' => 'id']);
+	}
+
 }

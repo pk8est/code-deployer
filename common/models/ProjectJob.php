@@ -113,12 +113,25 @@ class ProjectJob extends \common\models\CommonModel
 		return $this->hasMany(CommandActionScript::className(), ['action_id' => 'action_id']);
 	}
 	
-	public function getActionServers(){
-		return $this->hasMany(Server::className(), ['id' => 'server_id'])->via('projectActionServers');
+	public function getActionServers($active = false){
+		$relate = $this->hasMany(Server::className(), ['id' => 'server_id'])->via('projectActionServers');
+		return $active ? $relate->via('activeProjectActionServers') : $relate->via('projectActionServers');
+	}
+
+	public function getActiveActionServers(){
+		return $this->getActionServers(true);
 	}
 
 	public function getProjectActionServers(){
 		return $this->hasMany(ProjectActionServer::className(), ['project_id' => 'project_id', 'action_id' => 'action_id']);
+	}
+
+	public function getActiveProjectActionServers(){
+		return $this->getProjectActionServers()->where(['status' => 1]);
+	}
+
+	public function getVariableArray(){
+		return (Array)json_decode($this->variable, true);
 	}
 
 }

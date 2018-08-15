@@ -7,7 +7,7 @@ use common\models\Project;
 use common\models\CommandAction;
 use common\models\ProjectJob;
 use deployer\services\DeployService;
-
+use deployer\jobs\DeployJob;
 
 class DeploymentController extends BaseController{
 	
@@ -24,12 +24,17 @@ class DeploymentController extends BaseController{
 		$projectJobModel->action_name = $commandActionModel->name;
 		$projectJobModel->status = 0;
 		$projectJobModel->save();
-		$this->redirect(['deployment/deploy-job', 'id' => $projectJobModel->id]);
+		$job = new DeployJob($projectJobModel);
+        $job->run();
+		//$this->redirect(['deployment/deploy-job', 'id' => $projectJobModel->id]);
+		
 	}
 	
 
 	public function actionDeployJob($id){
-		Yii::$app->deployer->deploy($id);
+		$job = new DeployJob(ProjectJob::find()->with('commandActionScripts.commandScript')->where(['id' => $id])->one());
+		$job->run();
+		//Yii::$app->deployer->deploy($id);
 	}
 
 }
