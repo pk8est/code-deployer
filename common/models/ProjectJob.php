@@ -134,4 +134,8 @@ class ProjectJob extends \common\models\CommonModel
 		return (Array)json_decode($this->variable, true);
 	}
 
+	public function getCommandJobs(){
+		return $this->hasMany(CommandJob::className(), ['job_id' => 'id']);
+	}
+
 }

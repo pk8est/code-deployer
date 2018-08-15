@@ -26,8 +26,17 @@ class DeploymentController extends BaseController{
 		$projectJobModel->save();
 		$job = new DeployJob($projectJobModel);
         $job->run();
-		//$this->redirect(['deployment/deploy-job', 'id' => $projectJobModel->id]);
+	
+		return $this->render('deploy', [
+			'model' => $projectJobModel,
+		]);
 		
+	}
+
+	public function actionDetail($id){
+		return $this->render('deploy', [
+			'model' => ProjectJob::findOne($id)
+		]);
 	}
 	
 

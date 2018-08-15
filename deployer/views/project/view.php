@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="box-body table-responsive">
 					<table class="table table-striped table-bordered detail-view">
+						<th>步骤</th><th>执行用户</th>
 						<?php foreach($commandAction->commandScripts as $commandScript){
 							echo '<tr><th>'.$commandScript->name.'</th><td>'.$commandScript->runner.'</td></tr>';
 						}?>

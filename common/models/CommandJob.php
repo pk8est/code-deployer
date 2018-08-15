@@ -34,6 +34,13 @@ class CommandJob extends \common\models\CommonModel
 	const COMMAND_JOB_RUN_FINISHED = 10;
 	const COMMAND_JOB_RUN_FAILED = -9;
 
+	public static $statusArr = [
+		self::COMMAND_JOB_RUN_WAIT => ['name' => '未执行', 'code' => ''],
+		self::COMMAND_JOB_RUN_STARTED => ['name' => '执行中', 'code' => 'info'],
+		self::COMMAND_JOB_RUN_FINISHED => ['name' => '成功', 'code' => 'success'],
+		self::COMMAND_JOB_RUN_FAILED => ['name' => '失败', 'code' => 'danger'],
+	];
+
     /**
      * {@inheritdoc}
      */
@@ -101,6 +108,14 @@ class CommandJob extends \common\models\CommonModel
 		$commandJob->status = self::COMMAND_JOB_RUN_STARTED; 
 		$commandJob->started_at = time();
 		return $commandJob; 
+	}
+
+	public function getStatusInfo($key = null){
+		if($key){
+			return array_get(self::$statusArr, $this->status . '.' . $key, '');
+		}else{
+			return array_get(self::$statusArr, $this->status, []);
+		}
 	}
 
 }
