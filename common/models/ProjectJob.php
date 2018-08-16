@@ -110,11 +110,11 @@ class ProjectJob extends \common\models\CommonModel
 	}
 
 	public function getCommandActionScripts(){
-		return $this->hasMany(CommandActionScript::className(), ['action_id' => 'action_id']);
+		return $this->hasMany(CommandActionScript::className(), ['action_id' => 'action_id'])->orderBy('order ASC');
 	}
 	
 	public function getActionServers($active = false){
-		$relate = $this->hasMany(Server::className(), ['id' => 'server_id'])->via('projectActionServers');
+		$relate = $this->hasMany(Server::className(), ['id' => 'server_id']);
 		return $active ? $relate->via('activeProjectActionServers') : $relate->via('projectActionServers');
 	}
 

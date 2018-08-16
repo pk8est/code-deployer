@@ -27,7 +27,7 @@ class CommandScriptJob extends BaseJob implements Job{
 	}
 
 	public function getSign(){
-		return '[' . $this->job->id . ':action_id=' . $this->action->id . ':script_id=' . $this->script->id . ']';
+		return '[job_id=' . $this->job->id . ':action_id=' . $this->action->id . ':script_id=' . $this->script->id . ']';
 	}
 
 	public function getCategorie(){
@@ -43,7 +43,7 @@ class CommandScriptJob extends BaseJob implements Job{
             	$this->runSteps($this->script->beforeSteps);
         	}
 
-			$script = Parser::parseString($this->script->script, $this->job->variableArray);
+			$script = Parser::parseString($this->script->scriptUnix, $this->job->variableArray);
 			if($this->action->is_local){
 				$this->runProcess($script);
 			}else{

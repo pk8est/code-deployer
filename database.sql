@@ -145,6 +145,7 @@ CREATE TABLE `cd_project`(
   `project_group_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '',
   `repo_type` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1:git,2:svn',
+  `repo_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '仓库ID',
   `repo_address` varchar(1000) NOT NULL DEFAULT '' COMMENT '',
   `repo_account` varchar(255) NOT NULL DEFAULT '' COMMENT '',
   `repo_password` varchar(255) NOT NULL DEFAULT '' COMMENT '',
@@ -161,6 +162,7 @@ CREATE TABLE `cd_project`(
   `remark` text COMMENT '备注',
   PRIMARY KEY (`id`),
   KEY `creater_id` (`creater_id`),
+  KEY `repo_id` (`repo_id`),
   KEY `project_group_id` (`project_group_id`),
   KEY `name` (`name`),
   KEY `type` (`type`),
@@ -332,3 +334,61 @@ CREATE TABLE `cd_project_action_server` (
   KEY `server_id` (`server_id`),
   KEY `action_id` (`action_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TABLE IF EXISTS `cd_configure`;
+CREATE TABLE `cd_configure` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `creater_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '创建人ID',
+  `type` varchar(100) NOT NULL DEFAULT '' COMMENT '类型',
+  `code` varchar(100) NOT NULL COMMENT '唯一标识',
+  `name` varchar(100) NOT NULL COMMENT '配置名称',
+  `content` text NOT NULL COMMENT '配置内容',
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` int(10) unsigned NOT NULL DEFAULT '0',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
+  `priority` tinyint(4) NOT NULL DEFAULT '0' COMMENT '排序',
+  `remark` text NOT NULL COMMENT '备注',
+  PRIMARY KEY (`id`),
+  KEY `type_code` (`type`,`code`) USING BTREE,
+  KEY `type` (`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='configure';
+
+DROP TABLE IF EXISTS `cd_depository`;
+CREATE TABLE `cd_depository` (  
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `creater_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '创建人ID',
+  `type` enum('1', '2') NOT NULL DEFAULT '1' COMMENT '1:git/2:svn',
+  `address` varchar(100) NOT NULL DEFAULT '' COMMENT '地址', 
+  `account` varchar(100) NOT NULL DEFAULT '' COMMENT 'svn生效',
+  `password` varchar(100) NOT NULL DEFAULT '' COMMENT 'svn生效',
+  `private_key` varchar(1000) NOT NULL DEFAULT '' COMMENT 'git生效',
+  `public_key` varchar(1000) NOT NULL DEFAULT '' COMMENT 'git生效',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` int(10) unsigned NOT NULL DEFAULT '0',
+  `order` int(10) unsigned NOT NULL DEFAULT '0',
+  `remark` text COLLATE utf8_unicode_ci COMMENT '备注',
+  PRIMARY KEY (`id`),
+  KEY `address` (`address`),
+  KEY `updated_at` (`updated_at`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='depository';
+
+
+DROP TABLE IF EXISTS `cd_variable`;
+CREATE TABLE `cd_variable` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `creater_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '创建人ID',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `code` varchar(100) NOT NULL COMMENT 'project_id|action_id|script_id|step_id',
+  `value` varchar(255) NOT NULL DEFAULT '',
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+

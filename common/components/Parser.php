@@ -18,7 +18,7 @@ class Parser{
     }
 
 	public static function parseFile($file, array $tokens = []){
-        $template = Yii::getAlias('@app') . 'resources/scripts/' . str_replace('.', '/', $file) . '.sh';
+        $template = Yii::getAlias('@common') . '/resources/scripts/' . str_replace('.', '/', $file) . '.sh';
 
         if (file_exists($template)) {
             return self::parseString(file_get_contents($template), $tokens);

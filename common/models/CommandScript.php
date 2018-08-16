@@ -87,6 +87,10 @@ class CommandScript extends \common\models\CommonModel
     
     public function getCommandSteps($actionType = 1){
         return $this->hasMany(CommandStep::className(), ['script_id' => 'id'])->where(['action_type' => $actionType])->orderBy('order ASC');                       
-    }  
+    } 
+
+	public function getScriptUnix(){
+		return str_replace("\r\n","\n",$this->script);
+	} 
 
 }

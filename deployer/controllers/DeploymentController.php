@@ -25,7 +25,9 @@ class DeploymentController extends BaseController{
 		$projectJobModel->status = 0;
 		$projectJobModel->save();
 		$job = new DeployJob($projectJobModel);
-        $job->run();
+		try{
+        	$job->run();
+		}catch(\Exception $e){}
 	
 		return $this->render('deploy', [
 			'model' => $projectJobModel,
@@ -41,9 +43,13 @@ class DeploymentController extends BaseController{
 	
 
 	public function actionDeployJob($id){
-		$job = new DeployJob(ProjectJob::find()->with('commandActionScripts.commandScript')->where(['id' => $id])->one());
-		$job->run();
-		//Yii::$app->deployer->deploy($id);
+		try{
+			$job = new DeployJob(ProjectJob::find()->with('commandActionScripts.commandScript')->where(['id' => $id])->one());
+			$job->run();
+		}catch(\Exception $e){}
+		return $this->render('deploy', [
+            'model' => ProjectJob::findOne($id)
+        ]);
 	}
 
 }

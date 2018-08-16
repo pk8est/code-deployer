@@ -47,7 +47,6 @@ class ProcessJob extends BaseJob  implements Job{
 					throw new Exception($this->commandJob->messages);
 				}
 			}
-			$this->commandJob->save();
 			Yii::info("{$this->sign}执行任务完成!", $this->categorie);
 
 		}catch(Exception $e){
