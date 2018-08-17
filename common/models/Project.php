@@ -29,6 +29,25 @@ use Yii;
  */
 class Project extends CommonModel
 {
+	const STATUS_NORMAL = 1;
+	const STATUS_DISABLE = -1;
+	const REPO_TYPE_DEPO = 1;
+	const REPO_TYPE_CUSTOM = 2;
+
+	public static function getStatusArr(){
+		return [
+            self::STATUS_NORMAL => ['name' => '正常', 'code' => 'info'],
+            self::STATUS_DISABLE => ['name' => '停用', 'code' => 'danger'],
+        ];
+	}
+
+	public static function getRepoTypeArr(){
+		return [
+			self::REPO_TYPE_DEPO => ['name' => '仓库'],
+			self::REPO_TYPE_CUSTOM => ['name' => '自定义'],
+		];
+	}
+
     /**
      * {@inheritdoc}
      */
@@ -43,9 +62,8 @@ class Project extends CommonModel
     public function rules()
     {
         return [
-            [['project_group_id', 'name'], 'required'],
-            [['creater_id', 'project_group_id', 'repo_type', 'status', 'published_at', 'created_at', 'deleted_at', 'order'], 'default', 'value' => 0],
-            [['creater_id', 'project_group_id', 'repo_type', 'status', 'published_at', 'created_at', 'deleted_at', 'order'], 'integer'],
+            [['project_group_id', 'name', 'repo_type'], 'required'],
+            [['creater_id', 'repo_id', 'project_group_id', 'repo_type', 'status', 'published_at', 'created_at', 'deleted_at', 'order'], 'integer'],
             [['updated_at'], 'safe'],
             [['remark'], 'string'],
             [['name', 'repo_account', 'repo_password'], 'string', 'max' => 255],
@@ -92,9 +110,13 @@ class Project extends CommonModel
 	}
 	
 	public function getProjectActions(){
-		return $this->HasMany(ProjectAction::class, ['project_id' => 'id']);
+		return $this->HasMany(ProjectAction::className(), ['project_id' => 'id']);
 	}
 
+	public function getDepository(){
+		return $this->hasOne(Depository::className(), ['id' => 'repo_id']);
+	}
+	
     public function afterFind()
     {
         return parent::afterFind();

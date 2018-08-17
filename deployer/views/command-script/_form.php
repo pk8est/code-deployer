@@ -13,29 +13,21 @@ use mdm\admin\components\Helper;
     <?php $form = ActiveForm::begin(); ?>
     <div class="box-body table-responsive row">
         <div class="col-sm-6">
-        <?= $form->field($model, 'creater_id')->textInput() ?>
 
-        <?= $form->field($model, 'script')->textarea(['rows' => 6]) ?>
-
-        <?= $form->field($model, 'status')->textInput() ?>
-
-        <?= $form->field($model, 'is_local')->dropDownList([ '0', '1', ], ['prompt' => '']) ?>
-
-        <?= $form->field($model, 'updated_at')->textInput() ?>
-
-        <?= $form->field($model, 'order')->textInput() ?>
-
-		</div>
-		<div class="col-sm-6">
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'runner')->textInput(['maxlength' => true]) ?>
 
+        <?= $form->field($model, 'script')->textarea(['rows' => 9]) ?>
+
+		</div>
+		<div class="col-sm-6">
+
+        <?= $form->field($model, 'status')->dropDownList(array_list($model->statusArr, 'name')) ?>
+
+        <?= $form->field($model, 'is_local')->dropDownList(array_list($model->isLocalArr, name)) ?>
+
         <?= $form->field($model, 'type')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'created_at')->textInput() ?>
-
-        <?= $form->field($model, 'deleted_at')->textInput() ?>
 
         <?= $form->field($model, 'remark')->textarea(['rows' => 6]) ?>
 

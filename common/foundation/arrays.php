@@ -13,8 +13,8 @@ if(!function_exists('array_has')){
 	}
 }
 
-if(!function_exists('array_map')){
-	function array_map($array, $from, $to, $group = null){
+if(!function_exists('arr_map')){
+	function arr_map($array, $from, $to, $group = null){
 		return ArrayHelper::map($array, $from, $to, $group);
 	}
 }

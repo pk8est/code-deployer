@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'creater_id',
                         'project_group_id',
                         'name',
-                        'repo_type',
+                        'depository.address',
                         'repo_address',
                         'repo_account',
                         'repo_password',

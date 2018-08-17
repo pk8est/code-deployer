@@ -23,6 +23,15 @@ use Yii;
  */
 class Depository extends \common\models\CommonModel
 {
+	const STATUS_NORMAL = 1;
+    const STATUS_DISABLE = -1;	
+
+	public static function getStatusArr() {
+		return [
+			self::STATUS_NORMAL => ['name' => '正常', 'code' => 'info'],
+            self::STATUS_DISABLE => ['name' => '停用', 'code' => 'danger'],
+		];
+	}
     /**
      * {@inheritdoc}
      */
@@ -37,8 +46,10 @@ class Depository extends \common\models\CommonModel
     public function rules()
     {
         return [
+			[['address', 'type', 'status'], 'required'],
             [['type', 'remark'], 'string'],
-            [['status', 'created_at', 'deleted_at', 'order'], 'integer'],
+			['order', 'default', 'value' => 0],
+            [['status', 'created_at', 'deleted_at', 'order'], 'integer', 'skipOnEmpty' => true],
             [['updated_at'], 'safe'],
             [['address', 'account', 'password'], 'string', 'max' => 100],
             [['private_key', 'public_key'], 'string', 'max' => 1000],

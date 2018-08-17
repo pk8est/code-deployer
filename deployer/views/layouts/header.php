@@ -15,15 +15,13 @@ use yii\helpers\Html;
         </a>
 
         <div class="navbar-custom-menu ">
-
             <ul class="nav navbar-nav">
 
-                <li class="dropdown notifications-menu ">
+                <!--<li class="dropdown notifications-menu ">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">部局
                     </a>
                     <ul class="dropdown-menu" style="width: 60px">
                         <li>
-                            <!-- inner menu: contains the actual data -->
                             <ul class="menu">
                                 <li>
                                     <a href="<?php echo Yii::$app->urlManager->createUrl(['/site/layout','lang'=>'']);?>">平铺</a>
@@ -35,22 +33,31 @@ use yii\helpers\Html;
                             </ul>
                         </li>
                     </ul>
-                </li>
+                </li>-->
+				<li class="dropdown">
+              		<a href="#" class="dropdown-toggle" data-toggle="dropdown">部局<span class="caret"></span></a>
+              		<ul class="dropdown-menu" role="menu">
+						<li>
+                               <a href="<?php echo Yii::$app->urlManager->createUrl(['/site/layout','lang'=>'']);?>">平铺</a>
+                        </li>
 
-                <li class="dropdown notifications-menu ">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">皮肤
+                        <li>
+                               <a href="<?php echo Yii::$app->urlManager->createUrl(['/site/layout','layout'=>'layout-boxed']);?>">boxed</a>
+                        </li>
+              		</ul>
+            </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">皮肤<span class="caret"></span>
                     </a>
-                    <ul class="dropdown-menu" style="width: 60px">
+                    <ul class="dropdown-menu" role="menu">
                         <li>
                             <!-- inner menu: contains the actual data -->
-                            <ul class="menu">
-                                <?php foreach (Yii::$app->params['skins'] as $skin => $style) { ?>
+                           <?php foreach (Yii::$app->params['skins'] as $skin => $style) { ?>
                                     
-                                    <li>
-                                        <a href="<?php echo Yii::$app->urlManager->createUrl(['/site/skin','style'=>$style]);?>"><?= $skin?></a>
-                                    </li>
-                                <?php } ?>
-                            </ul>
+                               <li>
+                                     <a href="<?php echo Yii::$app->urlManager->createUrl(['/site/skin','style'=>$style]);?>"><?= $skin?></a>
+                               </li>
+                           <?php } ?>
                         </li>
                     </ul>
                 </li>

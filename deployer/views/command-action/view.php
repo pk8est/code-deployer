@@ -5,13 +5,13 @@ use yii\widgets\DetailView;
 use mdm\admin\components\Helper;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\CommandScript */
+/* @var $model common\models\CommandAction */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Command Scripts'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Command Actions'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="command-script-view box box-primary">
+<div class="command-action-view box box-primary">
     <div class="box-header">
         <?= Helper::checkRoute('update') ? Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary btn-flat']) : '' ?>
         <?= Helper::checkRoute('delete') ? Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
@@ -30,17 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id',
                 'creater_id',
                 'name',
-                [
-					'attribute' => 'script', 
-					'format' => 'html',
-					'value' => function($model){
-						return '<pre>' . e($model->script) . '</pre>';
-					}
-				],
-                'runner',
                 'status',
                 'type',
-                'is_local',
                 'created_at:datetime',
                 'updated_at:datetime',
                 'deleted_at',

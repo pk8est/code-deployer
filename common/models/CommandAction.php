@@ -35,6 +35,7 @@ class CommandAction extends \common\models\CommonModel
     public function rules()
     {
         return [
+			[['name'], 'required'],
             [['creater_id', 'status', 'created_at', 'deleted_at', 'order'], 'integer'],
             [['updated_at'], 'safe'],
             [['remark'], 'string'],
@@ -72,11 +73,11 @@ class CommandAction extends \common\models\CommonModel
     }
 	
 	public function getCommandScripts(){
-		return $this->hasMany(CommandScript::className(), ['id' => 'script_id'])->via('commandActionScripts');
+		return $this->hasMany(CommandScript::className(), ['id' => 'script_id'])->via('commandActionScripts')->orderBy('`order` ASC');
 	}
 
 	public function getCommandActionScripts(){
-		return $this->hasMany(CommandActionScript::className(), ['action_id' => 'id']);
+		return $this->hasMany(CommandActionScript::className(), ['action_id' => 'id'])->orderBy('`order` ASC');
 	}
 
 }

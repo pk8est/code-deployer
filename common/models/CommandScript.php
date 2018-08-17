@@ -23,6 +23,9 @@ use Yii;
  */
 class CommandScript extends \common\models\CommonModel
 {
+	const LOCAL = 1;
+	const REMOTE = 0;	
+
     /**
      * {@inheritdoc}
      */
@@ -30,6 +33,13 @@ class CommandScript extends \common\models\CommonModel
     {
         return 'cd_command_script';
     }
+
+	public static function getIsLocalArr(){
+		return [
+			self::LOCAL => ['name' => '本地'],
+			self::REMOTE => ['name' => '远程'],
+		];	
+	}
 
     /**
      * {@inheritdoc}

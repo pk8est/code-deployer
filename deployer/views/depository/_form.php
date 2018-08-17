@@ -13,15 +13,13 @@ use mdm\admin\components\Helper;
     <?php $form = ActiveForm::begin(); ?>
     <div class="box-body table-responsive row">
         <div class="col-sm-6">
-        <?= $form->field($model, 'type')->dropDownList([ 1 => '1', 2 => '2', ], ['prompt' => '']) ?>
+        <?= $form->field($model, 'type')->dropDownList([ 'git' => 'git', 'svn' => 'svn', ]) ?>
 
         <?= $form->field($model, 'account')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'private_key')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'private_key')->textarea(['rows' => 6]) ?>
 
-        <?= $form->field($model, 'status')->textInput() ?>
-
-        <?= $form->field($model, 'updated_at')->textInput() ?>
+        <?= $form->field($model, 'status')->dropDownList(array_list($model->statusArr, 'name')) ?>
 
         <?= $form->field($model, 'order')->textInput() ?>
 
@@ -31,11 +29,7 @@ use mdm\admin\components\Helper;
 
         <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'public_key')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'created_at')->textInput() ?>
-
-        <?= $form->field($model, 'deleted_at')->textInput() ?>
+        <?= $form->field($model, 'public_key')->textarea(['rows' => 6]) ?>
 
         <?= $form->field($model, 'remark')->textarea(['rows' => 6]) ?>
 
