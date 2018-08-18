@@ -326,6 +326,7 @@ CREATE TABLE `cd_project_action_server` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `project_id` bigint(20) NOT NULL DEFAULT '0',
   `action_id` bigint(20) NOT NULL DEFAULT '0',
+  `server_group_id` bigint(20) NOT NULL DEFAULT 0,
   `server_id` bigint(20) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '',
   `order` int(10) unsigned NOT NULL DEFAULT '0',

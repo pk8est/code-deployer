@@ -29,6 +29,7 @@ class ProjectActionServer extends \common\models\CommonModel
     public function rules()
     {
         return [
+			[['project_id', 'action_id', 'server_group_id'], 'required'],
             [['project_id', 'action_id', 'server_id', 'order'], 'integer'],
         ];
     }
@@ -42,6 +43,7 @@ class ProjectActionServer extends \common\models\CommonModel
             'id' => Yii::t('app', 'ID'),
             'project_id' => Yii::t('app', 'Project ID'),
             'action_id' => Yii::t('app', 'Action ID'),
+            'server_group_id' => Yii::t('app', 'Server Group ID'),
             'server_id' => Yii::t('app', 'Server ID'),
             'order' => Yii::t('app', 'Order'),
         ];
@@ -55,4 +57,9 @@ class ProjectActionServer extends \common\models\CommonModel
     {
         return new ProjectActionServerQuery(get_called_class());
     }
+
+	public function getServers(){
+		return $this->hasMany(Server::className(), ['id' => 'server_group_id']);
+	}
+
 }

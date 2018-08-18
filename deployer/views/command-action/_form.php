@@ -16,6 +16,11 @@ AdminLtePluginAsset::addJsFile($this, AdminLtePluginAsset::getDistUrl() . '/js/p
 
 $commandActionScripts = $model->commandActionScripts;
 $commandScripts = CommandScript::findAll(['status' => CommandScript::STATUS_NORMAL]);
+$this->registerCss('
+.todo-list>li .tool a{
+    color: #dd4b39;
+}
+');
 $this->registerJsVar('commandScriptRenderCount', 0);
 $this->registerJs('var commandActionScripts = '. Json::encode($commandActionScripts), View::POS_HEAD);
 $this->registerJs('var commandScripts = '. Json::encode(array_index($commandScripts, 'id')), View::POS_HEAD);
@@ -31,19 +36,20 @@ function renderCommandScript(item, index){
 		<input type="hidden" name="commandScripts[${commandScriptRenderCount}][id]" value="${item.id}" />
 		<!-- drag handle -->
 		<span class="handle">
-			<i class="fa fa-ellipsis-v"></i>
-			<i class="fa fa-ellipsis-v"></i>
+			<i class="fa fa-arrows"></i>
 		</span>
 		<!-- checkbox -->
-		<input type="checkbox" value="">
+		<!-- <input type="checkbox" value=""> -->
 		<!-- todo text -->
 		<span class="text">${item.name}</span>
 		<!-- Emphasis label -->
-		<small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
+		<!-- <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>-->
 		<!-- General tools such as edit or delete-->
-		<div class="tools">
-			<i class="fa fa-trash-o" onClick="removeCommandScript(\'${id}\')"></i>
-		</div>
+		<span class="pull-right tool">
+			<a target="_brank" href="/command-script/update?id=${item.id}"><i class="fa fa fa-mail-reply-all"></i></a>
+			<a target="_brank" href="/command-script/update?id=${item.id}"><i class="fa fa-edit"></i></a>
+			<a href="javascript:void(0)"><i class="fa fa-trash-o" onClick="removeCommandScript(\'${id}\')"></i></a>
+		</span>
 	</li>`
 	$("#command-script-list").append(html)
 	commandScriptRenderCount++;
@@ -124,7 +130,7 @@ function removeCommandScript(id){
 				<?= Html::dropDownList('command_script_select', '', arr_map($commandScripts, 'id', 'name'), [
 					'class' => 'form-control', 
 					'id' => 'command_script_select',
-					'prompt' => '--',
+					'prompt' => '--请选择--',
 				]) ?>
             </div>
             <div class="modal-footer">

@@ -29,17 +29,8 @@ use Yii;
  */
 class Project extends CommonModel
 {
-	const STATUS_NORMAL = 1;
-	const STATUS_DISABLE = -1;
 	const REPO_TYPE_DEPO = 1;
 	const REPO_TYPE_CUSTOM = 2;
-
-	public static function getStatusArr(){
-		return [
-            self::STATUS_NORMAL => ['name' => '正常', 'code' => 'info'],
-            self::STATUS_DISABLE => ['name' => '停用', 'code' => 'danger'],
-        ];
-	}
 
 	public static function getRepoTypeArr(){
 		return [
@@ -105,12 +96,13 @@ class Project extends CommonModel
         return $this->hasOne(ProjectGroup::className(), ['id' => 'project_group_id']);
     }
 
+
 	public function getCommandActions(){
 		return $this->hasMany(CommandAction::className(), ['id' => 'action_id'])->via('projectActions');
 	}
 	
 	public function getProjectActions(){
-		return $this->HasMany(ProjectAction::className(), ['project_id' => 'id']);
+		return $this->hasMany(ProjectAction::className(), ['project_id' => 'id']);
 	}
 
 	public function getDepository(){

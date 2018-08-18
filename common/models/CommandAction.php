@@ -71,13 +71,28 @@ class CommandAction extends \common\models\CommonModel
     {
         return new CommandActionQuery(get_called_class());
     }
-	
+
 	public function getCommandScripts(){
-		return $this->hasMany(CommandScript::className(), ['id' => 'script_id'])->via('commandActionScripts')->orderBy('`order` ASC');
+		return $this->getCommandActionScripts()->joinWith('commandScript')->all();
 	}
+	
 
 	public function getCommandActionScripts(){
 		return $this->hasMany(CommandActionScript::className(), ['action_id' => 'id'])->orderBy('`order` ASC');
 	}
 
+	public function updateCommandActionScripts($commandActionScripts, $delet = false){
+		$commandScripts = [];
+        foreach($commandActionScripts as $key => $value){
+            $commandScripts[] = ['action_id' => $this->id, 'script_id' => $value['id'], 'order' => $key];
+        }
+		if($delet){
+        	CommandActionScript::deleteAll(['action_id' => $this->id]);
+		}
+        if(count($commandScripts) > 0){
+           Yii::$app->db->createCommand()->batchInsert(CommandActionScript::tableName(), array_keys($commandScripts[0]), $commandScripts)->execute();
+        }
+	}
+
 }
+

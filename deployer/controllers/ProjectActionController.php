@@ -3,17 +3,16 @@
 namespace deployer\controllers;
 
 use Yii;
-use common\models\CommandAction;
-use deployer\models\CommandActionSearch;
+use common\models\ProjectAction;
+use deployer\models\ProjectActionSearch;
 use deployer\controllers\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use common\models\CommandActionScript;
 
 /**
- * CommandActionController implements the CRUD actions for CommandAction model.
+ * ProjectActionController implements the CRUD actions for ProjectAction model.
  */
-class CommandActionController extends BaseController
+class ProjectActionController extends BaseController
 {
     /**
      * @inheritdoc
@@ -31,12 +30,12 @@ class CommandActionController extends BaseController
     }
 
     /**
-     * Lists all CommandAction models.
+     * Lists all ProjectAction models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new CommandActionSearch();
+        $searchModel = new ProjectActionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -46,7 +45,7 @@ class CommandActionController extends BaseController
     }
 
     /**
-     * Displays a single CommandAction model.
+     * Displays a single ProjectAction model.
      * @param string $id
      * @return mixed
      */
@@ -58,16 +57,15 @@ class CommandActionController extends BaseController
     }
 
     /**
-     * Creates a new CommandAction model.
+     * Creates a new ProjectAction model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new CommandAction();
+        $model = new ProjectAction();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			$model->updateCommandActionScripts(array_values(Yii::$app->request->post('commandScripts')));
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -77,7 +75,7 @@ class CommandActionController extends BaseController
     }
 
     /**
-     * Updates an existing CommandAction model.
+     * Updates an existing ProjectAction model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -87,7 +85,6 @@ class CommandActionController extends BaseController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			$model->updateCommandActionScripts(array_values(Yii::$app->request->post('commandScripts')), true);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -97,7 +94,7 @@ class CommandActionController extends BaseController
     }
 
     /**
-     * Deletes an existing CommandAction model.
+     * Deletes an existing ProjectAction model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -105,20 +102,20 @@ class CommandActionController extends BaseController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+		
+        return $this->redirect(Yii::$app->request->get('returnUrl', to_route(['index'])));
     }
 
     /**
-     * Finds the CommandAction model based on its primary key value.
+     * Finds the ProjectAction model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return CommandAction the loaded model
+     * @return ProjectAction the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = CommandAction::findOne($id)) !== null) {
+        if (($model = ProjectAction::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

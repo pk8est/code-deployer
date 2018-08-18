@@ -45,6 +45,11 @@ class ProjectAction extends \common\models\CommonModel
         ];
     }
 
+	public function afterDelete(){
+		ProjectActionServer::deleteAll(['project_id' => $this->project_id, 'action_id' => $this->action_id]);
+		parent::afterDelete();
+	}
+
     /**
      * {@inheritdoc}
      * @return ProjectActionQuery the active query used by this AR class.
@@ -53,5 +58,13 @@ class ProjectAction extends \common\models\CommonModel
     {
         return new ProjectActionQuery(get_called_class());
     }
+
+	public function getCommandAction(){
+		return $this->hasMany(CommandAction::className(), ['id' => 'action_id']);
+	}
+
+	public function getProjectActionServer(){
+		return $this->hasMany(ProjectActionServer::className(), ['project_id' => 'project_id', 'action_id' => 'action_id']);
+	}
 
 }
