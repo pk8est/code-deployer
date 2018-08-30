@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\select2\Select2;
+use common\models\Server;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ServerGroup */
@@ -12,25 +14,23 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
     <div class="box-body table-responsive row">
         <div class="col-sm-6">
-        <?= $form->field($model, 'creater_id')->textInput() ?>
+
+        <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'desc')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'type')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'updated_at')->textInput() ?>
-
-        <?= $form->field($model, 'order')->textInput() ?>
+		<?= $form->field($model, 'servers')->widget(Select2::className(), [
+			//'name' => 'server_ids',
+			'data' => arr_map(Server::findAll(['status' => Server::STATUS_NORMAL]), 'id', 'name'),
+			'options' => [
+				'multiple' => 'true'
+			],
+		]) ?>
 
 		</div>
 		<div class="col-sm-6">
-        <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'status')->textInput() ?>
-
-        <?= $form->field($model, 'created_at')->textInput() ?>
-
-        <?= $form->field($model, 'deleted_at')->textInput() ?>
+        <?= $form->field($model, 'status')->dropDownList(array_list($model->statusArr, 'name')) ?>
 
         <?= $form->field($model, 'remark')->textarea(['rows' => 6]) ?>
 

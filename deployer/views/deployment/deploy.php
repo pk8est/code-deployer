@@ -25,6 +25,7 @@ pre.linux-style {
 }
 </style>
 
+	<?= Html::errorSummary($model, ['class' => 'error-summary']) ?>
 <div class ="row">
 	<?php foreach($model->commandJobs as $commandJob){ ?>
 		<div class="col-xs-12">

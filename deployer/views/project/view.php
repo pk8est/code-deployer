@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 use mdm\admin\components\Helper;
 use common\models\CommandAction;
 use common\models\ServerGroup;
-use common\models\ProjectActionServer;
+use common\models\ProjectAction;
 use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
@@ -15,22 +15,33 @@ use kartik\select2\Select2;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Projects'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-$projectActionServerModel = new ProjectActionServer();
-$projectActionServerModel->project_id = $model->id;
+$projectActionModel = new ProjectAction();
+$projectActionModel->project_id = $model->id;
 
+$this->registerCss('
+
+');
 $this->registerJs('
+
 ');
 
 ?>
 <div class="row">
     <div class="col-sm-6">
         <?php if(Helper::checkRoute('/deployment/deploy')){ foreach($model->projectActions as $key => $projectAction){ ?>
-			<?php $commandAction = $projectAction->getCommandAction()->one() ?>
+			<?php 
+				$commandAction = $projectAction->getCommandAction()->one(); 
+				$id = $projectAction->id;
+			?>
             <div class="box box-danger">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><?= Html::a(Yii::t('app', $commandAction->name), ['/deployment/deploy', 'id' => $model->id, 'action_id' => $commandAction->id], ['class' => 'btn btn-danger btn-flat', 'target' => '_brank']) ?>
-</h3>
-                    <div class="box-tools pull-right">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-default btn-flat" data-toggle="tab" href="#deploy-<?= $id ?>">发布</button>
+                      <button type="button" class="btn btn-default btn-flat" data-toggle="tab" href="#step-<?= $id ?>">步骤</button>
+                      <button type="button" class="btn btn-default btn-flat" data-toggle="tab" href="#other-<?= $id ?>">信息</button>
+                    </div>
+                    <!--<h3 class="box-title"><?= Html::a(Yii::t('app', $commandAction->name), ['/deployment/deploy', 'id' => $model->id, 'action_id' => $commandAction->id], ['class' => 'btn btn-danger btn-flat', 'target' => '_brank']) ?></h3>-->
+					<div class="box-tools pull-right">
 						<?= Helper::checkRoute('/project-action/delete') ? Html::a('<i class="fa fa-close"></i>', [
 							'/project-action/delete', 
 							'id' => $projectAction->id,
@@ -47,13 +58,32 @@ $this->registerJs('
                         </button>
                   </div>
                 </div>
-                <div class="box-body table-responsive">
-					<table class="table table-striped table-bordered detail-view">
-						<th>步骤</th><th>执行用户</th>
-						<?php foreach($commandAction->commandScripts as $item){
-							echo '<tr><th>'.$item->commandScript->name.'</th><td>'.$item->commandScript->runner.'</td></tr>';
-						}?>
-                    </table>
+                <div class="box-body table-responsive">	
+					<div class="tab-content">
+                        <div class="tab-pane active" id="deploy-<?= $id ?>">
+							<?php foreach($projectAction->serverGroups as $key => $serverGroup) { ?>
+          						<div class="box box-solid">
+            						<div class="">
+              							<span class="box-title"><?= $serverGroup->name ?></span>
+										<?php foreach($serverGroup->servers as $server) { ?>
+											<span class="label label-default"><?= $server->ip ?></span>
+										<?php } ?>
+            						</div>
+          						</div>
+							<?php } ?>
+
+                    		<?= Html::a(Yii::t('app', $commandAction->name), ['/deployment/deploy', 'id' => $model->id, 'action_id' => $commandAction->id], ['class' => 'btn btn-danger btn-flat btn-block', 'target' => '_brank']) ?>
+                        </div>
+                        <div class="tab-pane" id="step-<?= $id ?>">
+							<table class="table table-striped table-bordered detail-view">
+								<th>步骤</th><th>执行用户</th>
+								<?php foreach($commandAction->commandScripts as $item){
+									echo '<tr><th>'.$item->commandScript->name.'</th><td>'.$item->commandScript->runner.'</td></tr>';
+								}?>
+							</table>
+                        </div>
+                    	<div class="tab-pane" id="other<?= $id ?>">Other</div>
+                    </div>
                 </div>
             </div>     
         <?php }} ?>
@@ -110,7 +140,7 @@ $this->registerJs('
 <div class="modal fade" id="command-action-dropdownlist">
     <div class="modal-dialog">
         <div class="modal-content">
-			<?php $form = ActiveForm::begin(['action' => to_route(['project-action-server/batch-create'])]); ?>	
+			<?php $form = ActiveForm::begin(['action' => to_route(['project-action/create', 'goto' => Yii::$app->request->url])]); ?>	
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <h4 class="modal-title"><i class="fa fa-comment-o"></i> <?= Yii::t('app', 'Add Command Action') ?></h4>
@@ -118,9 +148,9 @@ $this->registerJs('
 
             <div class="modal-body">
 				
-				<?= $form->field($projectActionServerModel, 'project_id', ['template' => '{input}'])->hiddenInput() ?>
+				<?= $form->field($projectActionModel, 'project_id', ['template' => '{input}'])->hiddenInput() ?>
 				
-				<?= $form->field($projectActionServerModel, 'action_id')->widget(Select2::classname(), [
+				<?= $form->field($projectActionModel, 'action_id')->widget(Select2::classname(), [
                		'data' => arr_map(CommandAction::findAll(['status' => CommandAction::STATUS_NORMAL]), 'id', 'name'),
                		'options' => ['placeholder' => 'Select a action ...'],
             	    'pluginOptions' => [
@@ -128,7 +158,7 @@ $this->registerJs('
     	            ],
 	            ]) ?>
 
-				<?= $form->field($projectActionServerModel, 'server_group_id')->widget(Select2::classname(), [
+				<?= $form->field($projectActionModel, 'server_group_ids')->widget(Select2::classname(), [
                     'data' => arr_map(ServerGroup::findAll(['status' => ServerGroup::STATUS_NORMAL]), 'id', 'name'),
                     'options' => ['placeholder' => 'Select a server group ...'],
                     'pluginOptions' => [

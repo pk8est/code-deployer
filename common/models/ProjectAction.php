@@ -14,6 +14,8 @@ use Yii;
  */
 class ProjectAction extends \common\models\CommonModel
 {
+	public $server_group_ids = [];
+
     /**
      * {@inheritdoc}
      */
@@ -29,6 +31,7 @@ class ProjectAction extends \common\models\CommonModel
     {
         return [
             [['project_id', 'action_id', 'order'], 'integer'],
+			[['server_group_ids'], 'safe'],
         ];
     }
 
@@ -46,7 +49,7 @@ class ProjectAction extends \common\models\CommonModel
     }
 
 	public function afterDelete(){
-		ProjectActionServer::deleteAll(['project_id' => $this->project_id, 'action_id' => $this->action_id]);
+		ProjectActionServerGroup::deleteAll(['project_action_id' => $this->id]);
 		parent::afterDelete();
 	}
 
@@ -66,5 +69,27 @@ class ProjectAction extends \common\models\CommonModel
 	public function getProjectActionServer(){
 		return $this->hasMany(ProjectActionServer::className(), ['project_id' => 'project_id', 'action_id' => 'action_id']);
 	}
+
+	public function getServerGroups(){
+		return $this->hasMany(ServerGroup::className(), ['id' => 'server_group_id'])->via('serverGroupMap');
+
+	}
+
+	public function getServerGroupMap(){
+		return $this->hasMany(ProjectActionServerGroup::className(), ['project_action_id' => 'id']);
+	}
+
+	public function updateMany($array, $delete = false){
+        $data = [];
+        foreach($array as $key => $value){
+            $data[] = ['project_action_id' => $this->id, 'server_group_id' => $value, 'order' => $key];
+        }
+        if($delete){
+            ProjectActionServerGroup::deleteAll(['project_action_id' => $this->id]);
+        }
+        if(count($data) > 0){
+           Yii::$app->db->createCommand()->batchInsert(ProjectActionServerGroup::tableName(), array_keys($data[0]), $data)->execute();
+        }
+    }
 
 }

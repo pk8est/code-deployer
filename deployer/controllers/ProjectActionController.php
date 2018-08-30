@@ -64,9 +64,10 @@ class ProjectActionController extends BaseController
     public function actionCreate()
     {
         $model = new ProjectAction();
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+			$model->updateMany($model->server_group_ids, false);	
+			$returnUrl = Yii::$app->request->get('goto', ['view', 'id' => $model->id]);
+            return $this->redirect($returnUrl);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -85,6 +86,7 @@ class ProjectActionController extends BaseController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+			$model->updateMany($model->server_group_ids, true);	
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

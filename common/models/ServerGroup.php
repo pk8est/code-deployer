@@ -35,6 +35,7 @@ class ServerGroup extends \common\models\CommonModel
     public function rules()
     {
         return [
+			[['name'], 'required'],
             [['creater_id', 'status', 'created_at', 'deleted_at', 'order'], 'integer'],
             [['updated_at'], 'safe'],
             [['remark'], 'string'],
@@ -72,4 +73,27 @@ class ServerGroup extends \common\models\CommonModel
     {
         return new ServerGroupQuery(get_called_class());
     }
+
+
+	public function getServers(){
+		return $this->hasMany(Server::className(), ['id' => 'server_id'])->via('groupServerMap');
+	}
+
+	public function getGroupServerMap(){
+		return $this->hasMany(ServerGroupServer::className(), ['server_group_id' => 'id']);
+	}
+
+	public function updateMany($array, $delete = false){
+        $data = [];
+        foreach($array as $key => $value){
+            $data[] = ['server_group_id' => $this->id, 'server_id' => $value, 'order' => $key];
+        }
+        if($delete){
+            ServerGroupServer::deleteAll(['server_group_id' => $this->id]);
+        }
+        if(count($data) > 0){
+           Yii::$app->db->createCommand()->batchInsert(ServerGroupServer::tableName(), array_keys($data[0]), $data)->execute();
+        }
+    }	
+
 }

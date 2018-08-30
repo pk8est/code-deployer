@@ -27,7 +27,9 @@ class DeploymentController extends BaseController{
 		$job = new DeployJob($projectJobModel);
 		try{
         	$job->run();
-		}catch(\Exception $e){}
+		}catch(\Exception $e){
+			$projectJobModel->addErrors([$e->getMessage()]);
+		}
 	
 		return $this->render('deploy', [
 			'model' => $projectJobModel,

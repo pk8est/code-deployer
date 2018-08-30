@@ -64,8 +64,9 @@ class ServerGroupController extends BaseController
     public function actionCreate()
     {
         $model = new ServerGroup();
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+			
+			$model->updateMany(array_get(Yii::$app->request->post(), 'ServerGroup.servers', []));
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -85,6 +86,7 @@ class ServerGroupController extends BaseController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+			$model->updateMany(array_get(Yii::$app->request->post(), 'ServerGroup.servers', []), true);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

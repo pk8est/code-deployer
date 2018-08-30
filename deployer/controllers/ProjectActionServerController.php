@@ -82,13 +82,11 @@ class ProjectActionServerController extends BaseController
 			$projectActionModel->project_id = $model->project_id;
 			$projectActionModel->action_id = $model->action_id;
 			$projectActionModel->save();
-			foreach($model->servers as $key => $server){
+			foreach((array)$model->server_group_id as $groupId){
 				$_model = clone $model;
-				$_model->server_id = $server->id;
+				$_model->server_group_id = $groupId;
 				$_model->save(); 
 			}
-		}else{
-			dd($post);die;
 		}
 		$this->redirect(Yii::$app->request->referrer);
 	}

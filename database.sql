@@ -137,6 +137,18 @@ CREATE TABLE `cd_project_group`(
   KEY `updated_at` (`updated_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT '项目表分组表';
 
+CREATE TABLE `cd_server_group_server` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `group_id` bigint(20) NOT NULL DEFAULT '0',
+  `server_id` bigint(20) NOT NULL DEFAULT '0',
+  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `order` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `group_id` (`group_id`),
+  KEY `server_id` (`server_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 #项目表
 DROP TABLE IF EXISTS `cd_project`;
 CREATE TABLE `cd_project`(
@@ -321,7 +333,7 @@ CREATE TABLE `cd_command_job` (
   KEY `updated_at` (`updated_at`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT '';
 
-DROP TABLE IF EXISTS `cd_project_action_server`;
+/*DROP TABLE IF EXISTS `cd_project_action_server`;
 CREATE TABLE `cd_project_action_server` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `project_id` bigint(20) NOT NULL DEFAULT '0',
@@ -335,6 +347,20 @@ CREATE TABLE `cd_project_action_server` (
   KEY `server_id` (`server_id`),
   KEY `action_id` (`action_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+*/
+
+DROP TABLE IF EXISTS `cd_project_action_server_group`;
+CREATE TABLE `cd_project_action_server_group` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `project_action_id` bigint(20) NOT NULL DEFAULT '0',
+  `server_group_id` bigint(20) NOT NULL DEFAULT '0',
+  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `order` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `project_action_id` (`project_action_id`),
+  KEY `server_group_id` (`server_group_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 DROP TABLE IF EXISTS `cd_configure`;
 CREATE TABLE `cd_configure` (
